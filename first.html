@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <link rel="stylesheet" href="C:\Users\gemmara\Desktop\bootstrap local\bootstrap.min.css">
+    <script src="C:\Users\gemmara\Desktop\vue.js local\vue.js"></script>
+</head>
+<!-- ------------------------------------------------------------------------------------------------------------------- -->
+<body class="bg-dark">
+    <div id="app">
+        <div style="background-color: rgb(216, 226, 230);" class="row">
+            <div class="col-md-8 mx-auto">
+                <h1 class="text-center m-5 text-Secondary">
+                    Bizzy
+                </h1>
+                <!-- <hr> -->
+                <p contentEditable  class="card-title .bg-body text-center" >{{phrase}}</p>
+                <br>
+                <h5 class="card-title text-center">{{result}}</h5>
+                <br>
+                <hr>
+                <p style="text-align: center;">
+                    <button class="btn btn-light" @click="createNum('7')">7</button>
+                    &nbsp;
+                    <button class="btn btn-light" @click="createNum('8')">8</button>
+                    &nbsp;
+                    <button class="btn btn-light" @click="createNum('9')">9</button>
+                    &nbsp;
+                </p>
+                <p style="text-align: center;">
+                    <button class="btn btn-light" @click="createNum('4')">4</button>
+                    &nbsp;
+                    <button class="btn btn-light" @click="createNum('5')">5</button>
+                    &nbsp;
+                    <button class="btn btn-light" @click="createNum('6')">6</button>
+                    &nbsp;
+                </p>
+                <p style="text-align: center;">
+                    <button class="btn btn-light" @click="createNum('1')">1</button>
+                    &nbsp;
+                    <button class="btn btn-light" @click="createNum('2')">2</button>
+                    &nbsp;
+                    <button class="btn btn-light" @click="createNum('3')">3</button>
+                    &nbsp;
+                </p>
+                <p style="text-align: center;">
+                    <button class="btn btn-light" @click="createNum('0')">0</button>
+                </p>
+                <p id="oparators_btn" style="text-align: center">
+                    <button class="btn btn-dark " @click="createNum('+')" >+</button>
+                    {{}}
+                    <button class="btn btn-dark " @click="createNum('-')" >-</button>
+                    {{}}
+                    <button class="btn btn-dark " @click="createNum('x')" >x</button>
+                    {{}}
+                    <button class="btn btn-dark " @click="createNum('÷')" >÷</button>
+                    {{}}
+                    <button class="btn btn-dark " @click="createNum('^')" >^</button>
+                    {{}}
+                    <button class="btn btn-dark " @click="createNum('√')" >√</button>
+                    {{}}
+                    <button class="btn btn-dark " @click="createNum('∛')" >∛</button>
+                    {{}}
+                    <!-- <button class="btn btn-dark " @click="createNum('π')" >π</button> -->
+                    {{}}
+                </p>
+                <p style="text-align: center;">
+                    <!-- <button class="btn btn-secondary text-dark" @click="createNum('∛')">Calculate</button> -->
+                    <button class="btn btn-secondary " @click="finalResult()" >Calculate</button>
+                    {{}}
+                    <button class="btn btn-warning text-dark" @click="clearBox()">C</button>
+                    {{}}
+                    <button class="btn btn-light text-dark" @click="backSpace()"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkqBUDwhFa48XNL2cYDMPXRTg60xIhGiYR8w&usqp=CAU" alt="backspace" style="width: 30px; height: 30px;"></button>
+                </p>
+                <hr>
+            </div>
+        </div>
+    </div>
+    <script>
+        const app = Vue.createApp({
+            data() {
+                return{
+                    result: "",
+                    num1: "",
+                    o: "",
+                    num2: "",
+                    phrase: "",
+                    updatedPhrase: "",
+                    operators: ['+', '-', 'x', '∛', '√', '÷']
+                }
+            },
+            methods: {
+                createNum(i, num=null) {
+                    if (this.o == '') {
+                        num = 'num1'
+                    }
+                    else{
+                        num = 'num2'
+                    };
+                    if (!(isNaN(i))) {
+                        if (num == 'num1'){
+                        this.num1 += (i);
+                        }
+                        else{
+                            this.num2 += (i);
+                        };
+                        }
+                    else {
+                        if(this.result != ''){
+                            this.num1 = this.result;
+                            this.num2 = ''
+                        }
+                        this.phrase = this.num1
+                        this.o = (i);
+                        this.phrase += " ";
+                        i += " "
+                    };
+                    this.phrase += i
+                    this.finalResult()
+                },
+                // finalResult(p){
+                //     // alert('vaaaay khodaya')
+
+                // },
+                finalResult() {
+                    if (this.num2 == ''){
+                        this.result = this.num1
+                    }
+                    else if (this.o == "+") {
+                        this.result = parseFloat(this.num1) + parseFloat(this.num2)
+                    }
+                    else if (this.o == "-") {
+                        this.result = parseFloat(this.num1) - parseFloat(this.num2)
+                    }
+                    else if (this.o == "x") {
+                        this.result = parseFloat(this.num1) * parseFloat(this.num2)
+                    }
+                    else if (this.o == "÷") {
+                        this.result = parseFloat(this.num1) / parseFloat(this.num2)
+                    }
+                    else if (this.o == "^") {
+                        this.result = parseFloat(this.num1) ** parseFloat(this.num2)
+                    }
+                    else if (this.o == "√") {
+                        this.result = parseFloat(this.num1) ** 0.5
+                    }
+                    else if (this.o == "∛") {
+                        this.result = parseFloat(this.num1) ** (1/3)
+                    }
+                    if (this.o == "π") {
+                        this.result = Math.PI
+                    };
+
+                },
+                clearBox(){
+                    this.num1 = ''
+                    this.num2 = ''
+                    this.o = ''
+                    this.result = ''
+                    this.phrase = ''
+                },
+                backSpace(){
+                    if (this.num2 != ''){
+                        this.num2 = this.num2.slice(0, -1)
+                    }
+                    else if (this.o != ''){
+                        this.o = ''
+                    }
+                    else{
+                        this.num1 = this.num1.slice(0, -1)
+                    };
+
+                },
+                editNumsByPhrase(){
+
+                    this.updatedPhrase = this.phrase
+                    splitKey = " " + this.o + " "
+                    for(i in this.updatedPhrase){
+                        if(this.operator.includes(i)){
+                            splitKey = i
+                        }
+                    }
+
+                    myArr = this.updatedPhrase.split(splitKey);
+                    alert(myArr)
+                    this.num1 = myArr[0];
+                    this.o = myArr[1];
+                    this.num2 = myArr[2];
+                    this.result = ''
+                }
+            }
+        }).mount("#app")
+    </script>
+</body>
+</html>
